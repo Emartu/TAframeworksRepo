@@ -17,10 +17,10 @@ public class TestNewMailPage {
         new SetProperties().setSystemProperty();
     }
 
-//    @AfterClass
-//    public void closeBrowser() {
-//        NewMailPage.driver.quit();
-//    }
+    @AfterClass
+    public void closeBrowser() {
+        NewMailPage.driver.quit();
+    }
 
     @Test(description = "Tests whether email is sent")
     public void testMailIsInDraft() {
