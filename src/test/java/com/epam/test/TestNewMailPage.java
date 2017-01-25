@@ -17,6 +17,11 @@ public class TestNewMailPage {
         new SetProperties().setSystemProperty();
     }
 
+//    @AfterClass
+//    public void closeBrowser() {
+//        NewMailPage.driver.quit();
+//    }
+
     @Test(description = "Tests whether email is sent")
     public void testSentMail() {
 
@@ -27,8 +32,4 @@ public class TestNewMailPage {
         Assert.assertTrue(objMailPage.messageIsSent(), "Element is not found, seems like message is not sent ... ");
     }
 
-    @AfterClass
-    public void driverClose() {
-        //driver.close();
-    }
 }

@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class BaseClass {
+    WebDriver driver;
 
     public BaseClass() {
         initDriver();
@@ -14,4 +15,5 @@ public class BaseClass {
         WebDriver driver = new FirefoxDriver();
         return driver;
     }
+
 }

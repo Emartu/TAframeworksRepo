@@ -1,7 +1,7 @@
 package com.epam.pages;
 
-
 import com.epam.base.BaseClass;
+import com.epam.base.SetProperties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -106,26 +106,44 @@ public class DraftsPage {
     }
 
     public String getMailBody() {
-        WebElement mailBody = driver.findElement(new By.ByXPath("                                  "));
+        WebElement mailBody = driver.findElement(new By.ByXPath("//div[@id='cke_57_contents']/*[descendant::div]//text()"));
         return mailBody.getText();
     }
 
     public void sendTheMail() {
-
+        WebElement sendButton = driver.findElement(new By.ByXPath("//button[@id='nb-20']"));
+        sendButton.click();
     }
 
     public boolean verifyDisappFromDrafts() {
-
-        return false;
+        try {
+            WebElement element = driver.findElement(new By.ByXPath("//span[@title='sent via WebDriver']"));
+            return false;
+        } catch (NoSuchElementException e) {
+            return true;
+        }
     }
 
-    public boolean verifyIsInSent() {
+    public void clickOnSentMail() {
+        WebElement sentLink = driver.findElement(new By.ByXPath("//*[@class='svgicon svgicon-mail--Folder_sent mail-NestedList-Item-Icon']"));
+        sentLink.click();
 
-        return false;
     }
 
-    public void logOff() {
+    public boolean verifyMessageIsInSent() {
+        try {
+            WebElement element = driver.findElement(new By.ByXPath("//span[@title='sent via WebDriver']"));
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
 
+    public void doLogOff() {
+        WebElement userPict = driver.findElement(new By.ByXPath("//*[@class='mail-User-Name']"));
+        userPict.click();
+        WebElement exitButton = driver.findElement(new By.ByXPath("//*[@data-click-action='common.exitAll']"));
+        exitButton.click();
     }
 
 }

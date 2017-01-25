@@ -1,19 +1,19 @@
 package com.epam.pages;
 
 import com.epam.base.BaseClass;
+import com.epam.base.SetProperties;
+import com.epam.base.WaitTool;
 import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 
 public class LogInPage {
 
-    String url = "https://mail.yandex.by/";
-    String userName = "testtask28";
-    private String passw = "testtask28testtask28";
-
-    private WebDriver driver = new BaseClass().initDriver();
+    SetProperties setProperties = new SetProperties();
+    public static WebDriver driver = new BaseClass().initDriver();
+    WaitTool waitTool = new WaitTool();
 
     public void setUserName(String userName) {
-        driver.get(url);
+        driver.get(setProperties.getUrl());
         WebElement login = driver.findElement(new By.ByXPath("//input[@name='login']"));
         login.sendKeys(userName);
     }
@@ -29,9 +29,10 @@ public class LogInPage {
     }
 
     public void doLogin() {
-        this.setUserName(userName);
-        this.setPassword(passw);
+        this.setUserName(setProperties.getUserName());
+        this.setPassword(setProperties.getPassw());
         this.clickSubmit();
+        waitTool.waitForElementPresent(driver, new By.ByXPath("//*[@class='mail-User-Name']"), 5);
     }
 
     public boolean userPresented() {

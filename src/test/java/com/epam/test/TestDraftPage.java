@@ -49,4 +49,25 @@ public class TestDraftPage {
         objDraftPage.openDraftMessage();
         Assert.assertEquals(objDraftPage.getMailBody(), "Test message ... ", "Draft Message: mail body is not valid ...");
     }
+
+    @Test
+    public void disappearedFromDraftCheck() {
+        objDraftPage = new DraftsPage();
+        objDraftPage.doLogin();
+        objDraftPage.goDraft();
+        objDraftPage.openDraftMessage();
+        objDraftPage.sendTheMail();
+        Assert.assertTrue(objDraftPage.verifyDisappFromDrafts(), "Message is not disappeared from Drafts folder ... ");
+    }
+
+    @Test
+    public void isMessageSent() {
+        objDraftPage = new DraftsPage();
+        objDraftPage.doLogin();
+        objDraftPage.goDraft();
+        objDraftPage.openDraftMessage();
+        objDraftPage.sendTheMail();
+        objDraftPage.clickOnSentMail();
+        Assert.assertTrue(objDraftPage.verifyMessageIsInSent(), "Message is not sent ... ");
+    }
 }
