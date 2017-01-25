@@ -23,13 +23,12 @@ public class TestNewMailPage {
 //    }
 
     @Test(description = "Tests whether email is sent")
-    public void testSentMail() {
+    public void testMailIsInDraft() {
 
         objMailPage = new NewMailPage();
         objMailPage.doLogin();
-        objMailPage.sendNewMail();
-        objMailPage.messageIsSent();
-        Assert.assertTrue(objMailPage.messageIsSent(), "Element is not found, seems like message is not sent ... ");
+        objMailPage.goDraft();
+        Assert.assertTrue(objMailPage.messageIsInDraft(), "Element is not found, seems like message is not saved in Drafts ... ");
     }
 
 }

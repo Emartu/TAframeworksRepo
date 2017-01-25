@@ -2,6 +2,7 @@ package com.epam.pages;
 
 import com.epam.base.BaseClass;
 import com.epam.base.SetProperties;
+import com.epam.base.TimeOut;
 import com.epam.base.WaitTool;
 import org.jboss.netty.util.Timeout;
 import org.openqa.selenium.By;
@@ -17,6 +18,8 @@ public class NewMailPage {
     SetProperties setProperties = new SetProperties();
     public static WebDriver driver = new BaseClass().initDriver();
     WaitTool waitTool = new WaitTool();
+    TimeOut timeout = new TimeOut();
+
 
     public void setUserName(String userName) {
         driver.get(setProperties.getUrl());
@@ -62,30 +65,50 @@ public class NewMailPage {
         WebElement mailBody = driver.findElement(new By.ByXPath("//*[@id='cke_1_contents']"));
         mailBody.click();
         mailBody.sendKeys(setProperties.getMessage());
+        timeout.sleep(4);
 
     }
 
-    public void clickSendButton() {
-        WebElement sendButton = driver.findElement(new By.ByXPath("//button[@type='submit']"));
-        sendButton.click();
-        Timeout.sleep(2);
+//    public void clickSendButton() {
+//        WebElement sendButton = driver.findElement(new By.ByXPath("//button[@type='submit']"));
+//        sendButton.click();
+//    }
+
+    public void clickPopUpSaveChanges() {
+        WebElement popupSaveButton = driver.findElement(new By.ByXPath("//button[@data-action='save']"));
+        popupSaveButton.click();
+        timeout.sleep(2);
     }
 
-    public void sendNewMail() {
+    public void clickDraftLink() {
+        WebElement draftLink = driver.findElement(new By.ByXPath("//a[@data-key='view=folder&fid=6']"));
+        draftLink.click();
+    }
+
+    public void goDraft() {
         this.clickCreateNewMail();
         this.setToAdress();
         this.setMailSubject();
         this.setMailBody();
-
-        this.clickSendButton();
+        this.clickDraftLink();
+        this.clickPopUpSaveChanges();
     }
 
-    public boolean messageIsSent() {
+    public boolean messageIsInDraft() {
         try {
-            WebElement element = driver.findElement(new By.ByXPath("//*[@class='mail-Done-Title js-title-info']"));
+            WebElement element = driver.findElement(new By.ByXPath("//span[@title='sent via WebDriver']"));
             return true;
         } catch (NoSuchElementException e) {
             return false;
         }
     }
+
+//    public boolean messageIsSent() {
+//        try {
+//            WebElement element = driver.findElement(new By.ByXPath("//*[@class='mail-Done-Title js-title-info']"));
+//            return true;
+//        } catch (NoSuchElementException e) {
+//            return false;
+//        }
+//    }
 }
