@@ -1,73 +1,51 @@
-package com.epam.test;
-
-import com.epam.base.SetProperties;
-import com.epam.pages.DraftsPage;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-public class TestDraftPage {
-    DraftsPage objDraftPage;
-
-    @BeforeClass
-    public void setup() {
-        new SetProperties().setSystemProperty();
-    }
-
-    @Test
-    public void isMessageInDraft() {
-
-        objDraftPage = new DraftsPage();
-        objDraftPage.doLogin();
-        objDraftPage.goDraft();
-        Assert.assertTrue(objDraftPage.messageIsInDraft(), "Element is not found, seems like User mail is not in the draft ... ");
-    }
-
-    @Test
-    public void draftContentToCheck() {
-        objDraftPage = new DraftsPage();
-        objDraftPage.doLogin();
-        objDraftPage.goDraft();
-        objDraftPage.openDraftMessage();
-        Assert.assertEquals(objDraftPage.getDraftContentTo(), "emartu@yandex.ru", "Draft Message: mailTo adress is not valid ...");
-    }
-
-    @Test
-    public void draftContentSubjCheck() {
-        objDraftPage = new DraftsPage();
-        objDraftPage.doLogin();
-        objDraftPage.goDraft();
-        objDraftPage.openDraftMessage();
-        Assert.assertEquals(objDraftPage.getDraftContentSubject(), "sent via WebDriver", "Draft Message: subject is not valid ...");
-    }
-
-    @Test
-    public void draftContentBodyCheck() {
-        objDraftPage = new DraftsPage();
-        objDraftPage.doLogin();
-        objDraftPage.goDraft();
-        objDraftPage.openDraftMessage();
-        Assert.assertEquals(objDraftPage.getMailBody(), "Test message ... ", "Draft Message: mail body is not valid ...");
-    }
-
-    @Test
-    public void disappearedFromDraftCheck() {
-        objDraftPage = new DraftsPage();
-        objDraftPage.doLogin();
-        objDraftPage.goDraft();
-        objDraftPage.openDraftMessage();
-        objDraftPage.sendTheMail();
-        Assert.assertTrue(objDraftPage.verifyDisappFromDrafts(), "Message is not disappeared from Drafts folder ... ");
-    }
-
-    @Test
-    public void isMessageSent() {
-        objDraftPage = new DraftsPage();
-        objDraftPage.doLogin();
-        objDraftPage.goDraft();
-        objDraftPage.openDraftMessage();
-        objDraftPage.sendTheMail();
-        objDraftPage.clickOnSentMail();
-        Assert.assertTrue(objDraftPage.verifyMessageIsInSent(), "Message is not sent ... ");
-    }
-}
+//package com.epam.test;
+//
+//import com.epam.base.Driver;
+//import com.epam.pages.DraftsPage;
+//import org.testng.Assert;
+//import org.testng.annotations.AfterClass;
+//import org.testng.annotations.BeforeClass;
+//import org.testng.annotations.Test;
+//
+//public class TestDraftPage {
+//    DraftsPage objDraftPage;
+//
+//    @BeforeClass
+//    public void setup() {
+//        Driver.Initialize();
+//    }
+//
+//    @AfterClass
+//    public void closeBrowser() {
+//        Driver.Instance.close();
+//    }
+//
+//    @Test
+//    public void isMessageInDraft() {
+//
+//        objDraftPage = new DraftsPage(Driver.Instance);
+//        objDraftPage.doLogin("testtask28", "testtask28testtask28");
+//        objDraftPage.goDraft();
+//        Assert.assertTrue(objDraftPage.messageIsInDraft(), "Element is not found, seems like User mail is not in the draft ... ");
+//    }
+//
+//    @Test
+//    public void draftContentToCheck() {
+//        objDraftPage = new DraftsPage(Driver.Instance);
+//        objDraftPage.doLogin("testtask28", "testtask28testtask28");
+//        objDraftPage.goDraft();
+//        objDraftPage.openDraftMessage();
+//        Assert.assertTrue(objDraftPage.getDraftContentTo().contains("emartu@yandex.ru"));
+//    }
+//
+//    @Test
+//    public void isMessageSent() {
+//        objDraftPage = new DraftsPage(Driver.Instance);
+//        objDraftPage.doLogin("testtask28", "testtask28testtask28");
+//        objDraftPage.goDraft();
+//        objDraftPage.openDraftMessage();
+//        objDraftPage.sendTheMail();
+//        objDraftPage.clickOnSentMail();
+//        Assert.assertTrue(objDraftPage.verifyMessageIsInSent(), "Message is not sent ... ");
+//    }
+//}

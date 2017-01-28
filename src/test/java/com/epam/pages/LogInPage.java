@@ -1,44 +1,50 @@
 package com.epam.pages;
 
-import com.epam.base.BaseClass;
-import com.epam.base.SetProperties;
+import com.epam.base.Driver;
 import com.epam.base.WaitTool;
 import org.openqa.selenium.*;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
 
 public class LogInPage {
 
-    SetProperties setProperties = new SetProperties();
-    public static WebDriver driver = new BaseClass().initDriver();
-    WaitTool waitTool = new WaitTool();
+    private WaitTool waitTool = new WaitTool();
+    private final WebDriver driver;
 
-    public void setUserName(String userName) {
-        driver.get(setProperties.getUrl());
-        WebElement login = driver.findElement(new By.ByXPath("//input[@name='login']"));
+    @FindBy(xpath = "//input[@name='login']")
+    private WebElement login;
+
+    @FindBy(xpath = "//input[@name='passwd']")
+    private WebElement password;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement submit;
+
+    @FindBy(xpath = "//*[@class='mail-User-Name']")
+    private WebElement loggedUserName;
+
+    public LogInPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(this.driver, this);
+    }
+
+    public void goToUrl(String URL) {
+        Driver.Instance.get(URL);
+    }
+
+    public void doLogin(String userName, String passw) {
+
+        waitTool.waitForElementPresent(Driver.Instance, new By.ByXPath("//BUTTON[@class=' nb-button _nb-normal-button new-auth-form-button']"), 5);
         login.sendKeys(userName);
-    }
-
-    public void setPassword(String passw) {
-        WebElement password = driver.findElement(new By.ByXPath("//input[@name='passwd']"));
         password.sendKeys((passw));
-    }
-
-    public void clickSubmit() {
-        WebElement submit = driver.findElement(new By.ByXPath("//button[@type='submit']"));
         submit.click();
-    }
 
-    public void doLogin() {
-        this.setUserName(setProperties.getUserName());
-        this.setPassword(setProperties.getPassw());
-        this.clickSubmit();
-        waitTool.waitForElementPresent(driver, new By.ByXPath("//*[@class='mail-User-Name']"), 5);
     }
 
     public boolean userPresented() {
         try {
-            WebElement element = driver.findElement(new By.ByXPath("//span[@class='mail-NestedList-Item-Name js-folders-item-name' and text()='Входящие']"));
-            return true;
+            return loggedUserName.isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
         }
