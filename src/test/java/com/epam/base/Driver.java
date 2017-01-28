@@ -27,4 +27,10 @@ public class Driver {
         Instance.close();
     }
 
+    public static void quit(){
+        Driver.Instance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        System.out.println("Quit Browser");
+        Instance.quit();
+    }
+
 }

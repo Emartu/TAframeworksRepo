@@ -2,17 +2,54 @@ package com.epam.pages;
 
 import com.epam.base.Driver;
 import com.epam.base.WaitTool;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class NewMailPage {
 
     private WaitTool waitTool = new WaitTool();
+    private final WebDriver driver;
+
+    @FindBy(xpath = "//input[@name='login']")
+    private WebElement login;
+
+    @FindBy(xpath = "//input[@name='passwd']")
+    private WebElement password;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement submit;
+
+    @FindBy(xpath = "//a[@data-key='view=toolbar-button-compose-go&id=compose-go']")
+    private WebElement createMail;
+
+    @FindBy(xpath = "//*[@class='js-compose-field mail-Bubbles']")
+    private WebElement sendTo;
+
+    @FindBy(xpath = "//*[@class='mail-Compose-Field-Input-Controller js-compose-field js-editor-tabfocus-prev']")
+    private WebElement subject;
+
+    @FindBy(xpath = "//*[@id='cke_1_contents']")
+    private WebElement body;
+
+    @FindBy(xpath = "//button[@data-action='save']")
+    private WebElement popupSaveButton;
+
+    @FindBy(xpath = "//a[@data-key='view=folder&fid=6']")
+    private WebElement draftLink;
+
+    @FindBy(xpath = "//span[@title='sent via WebDriver']")
+    private WebElement sentSubj;
+
 
     public NewMailPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(this.driver, this);
     }
 
     public void goToUrl(String URL) {
@@ -20,53 +57,43 @@ public class NewMailPage {
     }
 
     public void doLogin(String userName, String passw) {
-        waitTool.waitForElementPresent(Driver.Instance, new By.ByXPath("//BUTTON[@class=' nb-button _nb-normal-button new-auth-form-button']"), 5);
-        WebElement login = Driver.Instance.findElement(new By.ByXPath("//input[@name='login']"));
         login.sendKeys(userName);
-        WebElement password = Driver.Instance.findElement(new By.ByXPath("//input[@name='passwd']"));
         password.sendKeys((passw));
-        WebElement submit = Driver.Instance.findElement(new By.ByXPath("//button[@type='submit']"));
         submit.click();
-
     }
 
     public void clickCreateNewMail() {
-        WebElement createMail = Driver.Instance.findElement(new By.ByXPath("//a[@data-key='view=toolbar-button-compose-go&id=compose-go']"));
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         createMail.click();
     }
 
     public void setToAdress(String toAdress) {
-        WebElement sendTo = Driver.Instance.findElement(new By.ByXPath("//*[@class='js-compose-field mail-Bubbles']"));
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         sendTo.click();
         sendTo.sendKeys(toAdress);
     }
 
     public void setMailSubject(String mailSubject) {
-        WebElement subject = Driver.Instance.findElement(new By.ByXPath("//*[@class='mail-Compose-Field-Input-Controller js-compose-field js-editor-tabfocus-prev']"));
         subject.click();
         subject.sendKeys(mailSubject);
     }
 
     public void setMailBody(String mailBody) {
-        WebElement Body = Driver.Instance.findElement(new By.ByXPath("//*[@id='cke_1_contents']"));
-        Body.click();
-        Body.sendKeys(mailBody);
+        body.click();
+        body.sendKeys(mailBody);
     }
 
     public void clickPopUpSaveChanges() {
-        WebElement popupSaveButton = Driver.Instance.findElement(new By.ByXPath("//button[@data-action='save']"));
         popupSaveButton.click();
     }
 
     public void clickDraftLink() {
-        WebElement draftLink = Driver.Instance.findElement(new By.ByXPath("//a[@data-key='view=folder&fid=6']"));
         draftLink.click();
     }
 
     public boolean messageIsInDraft() {
         try {
-            WebElement element = Driver.Instance.findElement(new By.ByXPath("//span[@title='sent via WebDriver']"));
-            return element.isDisplayed();
+            return sentSubj.isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
         }

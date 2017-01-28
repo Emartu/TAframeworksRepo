@@ -25,9 +25,18 @@ public class TestLogInPage {
         Driver.Instance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
-    @AfterClass
-    public void closeBrowser() {
-        Driver.Instance.close();
+    @AfterClass(alwaysRun = true, description = "Add implicit wait")
+    public void addImplicityBeforeClose() throws InterruptedException {
+        Thread.sleep(4000);
+    }
+
+    @AfterClass(alwaysRun = true, dependsOnMethods = "addImplicityBeforeClose")
+    public void closeBrowser() throws Exception {
+        try {
+            Driver.Instance.quit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @DataProvider(name = "Login_Provider")
@@ -39,7 +48,7 @@ public class TestLogInPage {
         return Login;
     }
 
-    @Test(dataProvider = "Login_Provider", description = "Tests whether user is Logged In", testName = "testLogin")
+    @Test(dataProvider = "Login_Provider", groups = "Login Page Test", description = "Tests whether user is Logged In", testName = "testLogin")
 
     public void testLogin(String URL, String LOGIN, String PASSW) {
         objLoginPage = new LogInPage(Driver.Instance);

@@ -1,25 +1,47 @@
 package com.epam.test;
 
 import com.epam.base.Driver;
+import com.epam.base.WaitTool;
 import com.epam.pages.NewMailPage;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.concurrent.TimeUnit;
+
 public class TestNewMailPage {
 
     NewMailPage objMailPage;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true, description = "Start browser")
     public void setup() {
         Driver.Initialize();
     }
 
-    @AfterClass
-    public void closeBrowser() {
-        Driver.Instance.close();
+    @BeforeClass(dependsOnMethods = "setup", description = "Add implicit wait")
+    public void addImplicitly() {
+        Driver.Instance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    }
+
+    @AfterClass(alwaysRun = true, description = "Add implicit wait")
+    public void addImplicityBeforeClose() {
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @AfterClass(alwaysRun = true, dependsOnMethods = "addImplicityBeforeClose")
+    public void closeBrowser() throws Exception {
+        try {
+            Driver.Instance.quit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @DataProvider(name = "NewMail_Provider")
@@ -34,8 +56,8 @@ public class TestNewMailPage {
         return NewMail;
     }
 
-    @Test(dataProvider = "NewMail_Provider", description = "Tests whether email is sent")
-    public void testMailIsInDraft(String URL,String LOGIN, String PASSW, String TO, String SUBJ, String BODY) {
+    @Test(dataProvider = "NewMail_Provider", groups = "Mail Page Test", description = "Tests whether email is sent")
+    public void testMailIsInDraft(String URL, String LOGIN, String PASSW, String TO, String SUBJ, String BODY) {
 
         objMailPage = new NewMailPage(Driver.Instance);
         objMailPage.goToUrl(URL);
