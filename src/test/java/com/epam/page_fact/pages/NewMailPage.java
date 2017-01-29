@@ -1,6 +1,5 @@
 package com.epam.page_fact.pages;
 
-import com.epam.page_fact.base.Driver;
 import com.epam.page_fact.base.WaitTool;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -46,57 +45,56 @@ public class NewMailPage {
     @FindBy(xpath = "//span[@title='sent via WebDriver']")
     private WebElement sentSubj;
 
+    @FindBy(xpath = "//*[@class='mail-User-Name']")
+    private WebElement loggedUserName;
+
+    public WebElement getLoggedUserName() {
+        return loggedUserName;
+    }
 
     public NewMailPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
     }
 
-    public void goToUrl(String URL) {
-        Driver.Instance.get(URL);
-    }
 
-    public void doLogin(String userName, String passw) {
-        login.sendKeys(userName);
-        password.sendKeys((passw));
-        submit.click();
-    }
-
-    public void clickCreateNewMail() {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        createMail.click();
-    }
-
-    public void setToAdress(String toAdress) {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        sendTo.click();
-        sendTo.sendKeys(toAdress);
-    }
-
-    public void setMailSubject(String mailSubject) {
-        subject.click();
-        subject.sendKeys(mailSubject);
-    }
-
-    public void setMailBody(String mailBody) {
-        body.click();
-        body.sendKeys(mailBody);
-    }
-
-    public void clickPopUpSaveChanges() {
-        popupSaveButton.click();
-    }
-
-    public void clickDraftLink() {
-        draftLink.click();
-    }
-
-    public boolean messageIsInDraft() {
+    public boolean isInDraft(String toAdress, String mailSubject, String mailBody) {
         try {
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            createMail.click();
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            sendTo.click();
+            sendTo.sendKeys(toAdress);
+            subject.click();
+            subject.sendKeys(mailSubject);
+            body.click();
+            body.sendKeys(mailBody);
+            draftLink.click();
+            popupSaveButton.click();
+
             return sentSubj.isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
         }
     }
 
+    public DraftsPage goDrafts(String toAdress, String mailSubject, String mailBody) {
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        createMail.click();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        sendTo.click();
+        sendTo.sendKeys(toAdress);
+        subject.click();
+        subject.sendKeys(mailSubject);
+        body.click();
+        body.sendKeys(mailBody);
+        draftLink.click();
+        popupSaveButton.click();
+
+        return new DraftsPage(driver);
+    }
+
+    public boolean isDisplayed(WebElement mailPageElement) {
+        return mailPageElement.isDisplayed();
+    }
 }

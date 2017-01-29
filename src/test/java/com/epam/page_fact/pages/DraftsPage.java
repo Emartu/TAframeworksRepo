@@ -9,8 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.concurrent.TimeUnit;
-
 public class DraftsPage {
 
     private WaitTool waitTool = new WaitTool();
@@ -70,71 +68,19 @@ public class DraftsPage {
         PageFactory.initElements(this.driver, this);
     }
 
-    public void goToUrl(String URL) {
-        Driver.Instance.get(URL);
-    }
-
-    public void doLogin(String userName, String passw) {
-        login.sendKeys(userName);
-        password.sendKeys((passw));
-        submit.click();
-    }
-
-    public void clickCreateNewMail() {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        createMail.click();
-    }
-
-    public void setToAdress(String toAdress) {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        sendTo.click();
-        sendTo.sendKeys(toAdress);
-    }
-
-    public void setMailSubject(String mailSubject) {
-        subject.click();
-        subject.sendKeys(mailSubject);
-    }
-
-    public void setMailBody(String mailBody) {
-        body.click();
-        body.sendKeys(mailBody);
-    }
-
-    public void clickPopUpSaveChanges() {
-        popupSaveButton.click();
-    }
-
-    public void clickDraftLink() {
-        draftLink.click();
-    }
-
-    public void openDraftMessage() {
+    public boolean isSentFromDraft(String toAdress) {
         draftMessage.click();
         waitTool.waitForElementPresent(Driver.Instance, new By.ByXPath("//button[@type='submit']"), 5);
-    }
-
-    public void sendTheMail() {
-        sendButton.click();
-    }
-
-    public void clickOnSentMail() {
-        sentLink.click();
-    }
-
-    public boolean verifyMessageIsInSent() {
         try {
+            sendTo.click();
+            sendTo.sendKeys(toAdress);
+            sendButton.click();
+            sentLink.click();
             WebElement element = Driver.Instance.findElement(new By.ByXPath("//span[@title='sent via WebDriver']"));
             return element.isDisplayed();
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException E) {
             return false;
         }
     }
-
-    public void doLogOff() {
-        userPict.click();
-        exitButton.click();
-    }
-
 }
 

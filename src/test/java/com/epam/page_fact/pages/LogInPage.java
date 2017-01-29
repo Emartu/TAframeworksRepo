@@ -32,28 +32,12 @@ public class LogInPage {
         PageFactory.initElements(this.driver, this);
     }
 
-    public AbstractPage goToUrl(String URL) {
-        Driver.Instance.get(URL);
-        return new AbstractPage(driver);
-    }
-
-    public AbstractPage doLogin(String userName, String passw) {
-
+    public NewMailPage doLogin(String userName, String passw) {
         waitTool.waitForElementPresent(Driver.Instance, new By.ByXPath("//BUTTON[@class=' nb-button _nb-normal-button new-auth-form-button']"), 5);
         login.sendKeys(userName);
         password.sendKeys((passw));
         submit.click();
-        return new AbstractPage(driver);
-
-    }
-
-    public boolean userPresented() {
-        try {
-            return loggedUserName.isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-
+        return new NewMailPage(driver);
     }
 }
 

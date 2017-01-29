@@ -36,7 +36,7 @@ public class TestDraftPage {
     @AfterClass(alwaysRun = false, dependsOnMethods = "addImplicityBeforeClose")
     public void closeBrowser() throws Exception {
         try {
-            Driver.Instance.quit();
+            Driver.quit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class TestDraftPage {
         return NewMail;
     }
 
-    @Test(dataProvider = "NewMail_Provider", groups = "Mail Page Test", description = "Tests whether email is sent")
+    @Test(dataProvider = "NewMail_Provider", groups = "Draft Page Test", description = "Tests whether email is sent")
     public void testMailIsInDraft(String URL, String LOGIN, String PASSW, String TO, String SUBJ, String BODY) {
         objDraftPage = new DraftsPage(Driver.Instance);
         objDraftPage.goToUrl(URL);

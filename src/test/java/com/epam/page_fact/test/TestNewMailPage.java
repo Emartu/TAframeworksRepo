@@ -1,7 +1,7 @@
 package com.epam.page_fact.test;
 
 import com.epam.page_fact.base.Driver;
-import com.epam.page_fact.pages.NewMailPage;
+import com.epam.page_fact.pages.AbstractPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TestNewMailPage {
 
-    NewMailPage objMailPage;
+    AbstractPage objMailPage;
 
     @BeforeClass(alwaysRun = true, description = "Start browser")
     public void setup() {
@@ -56,16 +56,9 @@ public class TestNewMailPage {
 
     @Test(dataProvider = "NewMail_Provider", groups = "Mail Page Test", description = "Tests whether email is sent")
     public void testMailIsInDraft(String URL, String LOGIN, String PASSW, String TO, String SUBJ, String BODY) {
-        objMailPage = new NewMailPage(Driver.Instance);
-        objMailPage.goToUrl(URL);
-        objMailPage.doLogin(LOGIN, PASSW);
-        objMailPage.clickCreateNewMail();
-        objMailPage.setToAdress(TO);
-        objMailPage.setMailSubject(SUBJ);
-        objMailPage.setMailBody(BODY);
-        objMailPage.clickDraftLink();
-        objMailPage.clickPopUpSaveChanges();
-        Assert.assertTrue(objMailPage.messageIsInDraft(), "Element is not found, seems like message is not saved in Drafts ... ");
+        objMailPage = new AbstractPage(Driver.Instance);
+        Boolean isInDraft = objMailPage.goToUrl(URL).doLogin(LOGIN, PASSW).isInDraft(TO, SUBJ, BODY);
+        Assert.assertTrue(isInDraft, "Element is not found, seems like message is not saved in Drafts ... ");
     }
 
 }

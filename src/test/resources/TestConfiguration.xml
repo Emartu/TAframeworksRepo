@@ -12,8 +12,8 @@
         </groups>
 
         <classes>
-            <class name="com.epam.test.TestLogInPage"/>
-            <class name="com.epam.test.TestNewMailPage"/>
+            <class name="com.epam.page_object.test.TestLogInPage"/>
+            <class name="com.epam.page_fact.test.TestNewMailPage"/>
         </classes>
 
     </test>

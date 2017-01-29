@@ -3,7 +3,7 @@ package com.epam.page_fact.test;
 
 import com.epam.page_fact.base.Driver;
 import com.epam.page_fact.pages.AbstractPage;
-import com.epam.page_fact.pages.LogInPage;
+import com.epam.page_fact.pages.NewMailPage;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class TestLogInPage {
-    LogInPage objLoginPage;
+    AbstractPage objLoginPage;
 
     @BeforeClass(alwaysRun = true, description = "Start browser")
     public void setup() {
@@ -52,10 +52,9 @@ public class TestLogInPage {
 
     @Test(dataProvider = "Login_Provider", groups = "Login Page Test", description = "Tests whether user is Logged In", testName = "testLogin")
     public void testLogin(String URL, String LOGIN, String PASSW) {
-        WebElement loggedUserNam = new AbstractPage(Driver.Instance).getLoggedUserName();
-        objLoginPage = new LogInPage(Driver.Instance);
-        objLoginPage.goToUrl(URL);
-        Boolean loginDone = new LogInPage(Driver.Instance).doLogin(LOGIN, PASSW).isDisplayed(loggedUserNam);
+        WebElement loggedUserNam = new NewMailPage(Driver.Instance).getLoggedUserName();
+        objLoginPage = new AbstractPage(Driver.Instance);
+        Boolean loginDone = objLoginPage.goToUrl(URL).doLogin(LOGIN, PASSW).isDisplayed(loggedUserNam);
         Assert.assertTrue(loginDone, "Element is not found, seems like User is not logged in ... ");
     }
 }
