@@ -1,123 +1,140 @@
-//package com.epam.pages;
-//
-//import com.epam.base.Driver;
-//import com.epam.base.SetProperties;
-//import com.epam.base.WaitTool;
-//import org.openqa.selenium.By;
-//import org.openqa.selenium.NoSuchElementException;
-//import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.WebElement;
-//
-//public class DraftsPage {
-//
-//    private String URL = "https://mail.yandex.by/";
-//
-//    SetProperties setProperties = new SetProperties();
-//    WaitTool waitTool = new WaitTool();
-//
-//    public DraftsPage(WebDriver driver) {
-//    }
-//
-//    public void doLogin(String userName, String passw) {
-//        Driver.Instance.get(URL);
-//        waitTool.waitForElementPresent(Driver.Instance, new By.ByXPath("//BUTTON[@class=' nb-button _nb-normal-button new-auth-form-button']"), 5);
-//        WebElement login = Driver.Instance.findElement(new By.ByXPath("//input[@name='login']"));
-//        login.sendKeys(userName);
-//        WebElement password = Driver.Instance.findElement(new By.ByXPath("//input[@name='passwd']"));
-//        password.sendKeys((passw));
-//        WebElement submit = Driver.Instance.findElement(new By.ByXPath("//button[@type='submit']"));
-//        submit.click();
-//
-//    }
-//
-//    public void clickCreateNewMail() {
-//        WebElement createMail = Driver.Instance.findElement(new By.ByXPath("//a[@data-key='view=toolbar-button-compose-go&id=compose-go']"));
-//        createMail.click();
-//    }
-//
-//    public void setToAdress() {
-//        WebElement sendTo = Driver.Instance.findElement(new By.ByXPath("//*[@class='js-compose-field mail-Bubbles']"));
-//        sendTo.click();
-//        sendTo.sendKeys(setProperties.getToAdress());
-//    }
-//
-//    public void setMailSubject() {
-//        WebElement subject = Driver.Instance.findElement(new By.ByXPath("//*[@class='mail-Compose-Field-Input-Controller js-compose-field js-editor-tabfocus-prev']"));
-//        subject.click();
-//        subject.sendKeys(setProperties.getSubj());
-//    }
-//
-//    public void setMailBody() {
-//        WebElement mailBody = Driver.Instance.findElement(new By.ByXPath("//*[@id='cke_1_contents']"));
-//        mailBody.click();
-//        mailBody.sendKeys(setProperties.getMessage());
-//    }
-//
-//    public void clickPopUpSaveChanges() {
-//        WebElement popupSaveButton = Driver.Instance.findElement(new By.ByXPath("//button[@data-action='save']"));
-//        popupSaveButton.click();
-//    }
-//
-//    public void clickDraftLink() {
-//        WebElement draftLink = Driver.Instance.findElement(new By.ByXPath("//a[@data-key='view=folder&fid=6']"));
-//        draftLink.click();
-//    }
-//
-//    public void goDraft() {
-//        this.clickCreateNewMail();
-//        this.setToAdress();
-//        this.setMailSubject();
-//        this.setMailBody();
-//        this.clickDraftLink();
-//        this.clickPopUpSaveChanges();
-//    }
-//
-//    public boolean messageIsInDraft() {
-//        try {
-//            WebElement element = Driver.Instance.findElement(new By.ByXPath("//span[@title='sent via WebDriver']"));
-//            return element.isDisplayed();
-//        } catch (NoSuchElementException e) {
-//            return false;
-//        }
-//    }
-//
-//    public void openDraftMessage() {
-//        WebElement draftMessage = Driver.Instance.findElement(new By.ByXPath("//span[@title='sent via WebDriver']"));
-//        draftMessage.click();
-//        waitTool.waitForElementPresent(Driver.Instance, new By.ByXPath("//button[@type='submit']"),5);
-//    }
-//
-//    public String getDraftContentTo() {
-//        WebElement toAdress = Driver.Instance.findElement(new By.ByXPath("//div[@name='to']"));
-//        return toAdress.getText().toString();
-//    }
-//
-//    public void clickOnSentMail() {
-//        WebElement sentLink = Driver.Instance.findElement(new By.ByXPath("//*[@class='svgicon svgicon-mail--Folder_sent mail-NestedList-Item-Icon']"));
-//        sentLink.click();
-//
-//    }
-//
-//    public void sendTheMail() {
-//        WebElement sendButton = Driver.Instance.findElement(new By.ByXPath("//button[@type='submit']"));
-//        sendButton.click();
-//    }
-//
-//    public boolean verifyMessageIsInSent() {
-//        try {
-//            WebElement element = Driver.Instance.findElement(new By.ByXPath("//span[@title='sent via WebDriver']"));
-//            return element.isDisplayed();
-//        } catch (NoSuchElementException e) {
-//            return false;
-//        }
-//    }
-//
-//    public void doLogOff() {
-//        WebElement userPict = Driver.Instance.findElement(new By.ByXPath("//*[@class='mail-User-Name']"));
-//        userPict.click();
-//        WebElement exitButton = Driver.Instance.findElement(new By.ByXPath("//*[@data-click-action='common.exitAll']"));
-//        exitButton.click();
-//    }
-//
-//}
-//
+package com.epam.pages;
+
+import com.epam.base.Driver;
+import com.epam.base.WaitTool;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import java.util.concurrent.TimeUnit;
+
+public class DraftsPage {
+
+    private WaitTool waitTool = new WaitTool();
+    private final WebDriver driver;
+
+    @FindBy(xpath = "//input[@name='login']")
+    private WebElement login;
+
+    @FindBy(xpath = "//input[@name='passwd']")
+    private WebElement password;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement submit;
+
+    @FindBy(xpath = "//a[@data-key='view=toolbar-button-compose-go&id=compose-go']")
+    private WebElement createMail;
+
+    @FindBy(xpath = "//*[@class='js-compose-field mail-Bubbles']")
+    private WebElement sendTo;
+
+    @FindBy(xpath = "//*[@class='mail-Compose-Field-Input-Controller js-compose-field js-editor-tabfocus-prev']")
+    private WebElement subject;
+
+    @FindBy(xpath = "//*[@id='cke_1_contents']")
+    private WebElement body;
+
+    @FindBy(xpath = "//button[@data-action='save']")
+    private WebElement popupSaveButton;
+
+    @FindBy(xpath = "//a[@data-key='view=folder&fid=6']")
+    private WebElement draftLink;
+
+    @FindBy(xpath = "//span[@title='sent via WebDriver']")
+    private WebElement sentSubj;
+
+    @FindBy(xpath = "//span[@title='sent via WebDriver']")
+    private WebElement draftMessage;
+
+    @FindBy(xpath = "//div[@name='to']")
+    private WebElement toAdress;
+
+    @FindBy(xpath = "//*[@class='svgicon svgicon-mail--Folder_sent mail-NestedList-Item-Icon']")
+    private WebElement sentLink;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement sendButton;
+
+    @FindBy(xpath = "//*[@class='mail-User-Name']")
+    private WebElement userPict;
+
+    @FindBy(xpath = "//*[@data-click-action='common.exitAll']")
+    private WebElement exitButton;
+
+
+    public DraftsPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(this.driver, this);
+    }
+
+    public void goToUrl(String URL) {
+        Driver.Instance.get(URL);
+    }
+
+    public void doLogin(String userName, String passw) {
+        login.sendKeys(userName);
+        password.sendKeys((passw));
+        submit.click();
+    }
+
+    public void clickCreateNewMail() {
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        createMail.click();
+    }
+
+    public void setToAdress(String toAdress) {
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        sendTo.click();
+        sendTo.sendKeys(toAdress);
+    }
+
+    public void setMailSubject(String mailSubject) {
+        subject.click();
+        subject.sendKeys(mailSubject);
+    }
+
+    public void setMailBody(String mailBody) {
+        body.click();
+        body.sendKeys(mailBody);
+    }
+
+    public void clickPopUpSaveChanges() {
+        popupSaveButton.click();
+    }
+
+    public void clickDraftLink() {
+        draftLink.click();
+    }
+
+    public void openDraftMessage() {
+        draftMessage.click();
+        waitTool.waitForElementPresent(Driver.Instance, new By.ByXPath("//button[@type='submit']"), 5);
+    }
+
+    public void sendTheMail() {
+        sendButton.click();
+    }
+
+    public void clickOnSentMail() {
+        sentLink.click();
+    }
+
+    public boolean verifyMessageIsInSent() {
+        try {
+            WebElement element = Driver.Instance.findElement(new By.ByXPath("//span[@title='sent via WebDriver']"));
+            return element.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public void doLogOff() {
+        userPict.click();
+        exitButton.click();
+    }
+
+}
+

@@ -49,7 +49,6 @@ public class TestLogInPage {
     }
 
     @Test(dataProvider = "Login_Provider", groups = "Login Page Test", description = "Tests whether user is Logged In", testName = "testLogin")
-
     public void testLogin(String URL, String LOGIN, String PASSW) {
         objLoginPage = new LogInPage(Driver.Instance);
         objLoginPage.goToUrl(URL);

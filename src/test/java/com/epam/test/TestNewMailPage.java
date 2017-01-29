@@ -58,7 +58,6 @@ public class TestNewMailPage {
 
     @Test(dataProvider = "NewMail_Provider", groups = "Mail Page Test", description = "Tests whether email is sent")
     public void testMailIsInDraft(String URL, String LOGIN, String PASSW, String TO, String SUBJ, String BODY) {
-
         objMailPage = new NewMailPage(Driver.Instance);
         objMailPage.goToUrl(URL);
         objMailPage.doLogin(LOGIN, PASSW);
