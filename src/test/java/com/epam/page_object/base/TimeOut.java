@@ -1,4 +1,4 @@
-package com.epam.base;
+package com.epam.page_object.base;
 
 
 public class TimeOut {

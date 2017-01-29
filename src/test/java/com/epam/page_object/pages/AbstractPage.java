@@ -1,4 +1,4 @@
-package com.epam.pages;
+package com.epam.page_object.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

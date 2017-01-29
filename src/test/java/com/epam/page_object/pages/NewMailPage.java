@@ -1,7 +1,7 @@
-package com.epam.pages;
+package com.epam.page_object.pages;
 
-import com.epam.base.Driver;
-import com.epam.base.WaitTool;
+import com.epam.page_object.base.Driver;
+import com.epam.page_object.base.WaitTool;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

@@ -1,15 +1,13 @@
-package com.epam.base;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+package com.epam.page_object.base;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 public class WaitTool {
     public static final int DEFAULT_WAIT_4_ELEMENT = 7;
     public static final int DEFAULT_WAIT_4_PAGE = 12;

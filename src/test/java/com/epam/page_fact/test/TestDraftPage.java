@@ -1,9 +1,7 @@
-package com.epam.test;
+package com.epam.page_fact.test;
 
-import com.epam.base.Driver;
-import com.epam.base.WaitTool;
-import com.epam.pages.NewMailPage;
-import org.openqa.selenium.By;
+import com.epam.page_fact.base.Driver;
+import com.epam.page_fact.pages.DraftsPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -12,9 +10,8 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-public class TestNewMailPage {
-
-    NewMailPage objMailPage;
+public class TestDraftPage {
+    DraftsPage objDraftPage;
 
     @BeforeClass(alwaysRun = true, description = "Start browser")
     public void setup() {
@@ -26,16 +23,17 @@ public class TestNewMailPage {
         Driver.Instance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
-    @AfterClass(alwaysRun = true, description = "Add implicit wait")
-    public void addImplicityBeforeClose() {
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    @AfterClass (alwaysRun = true, description = "Does Lof Off")
+    public void doLogOff(){
+        objDraftPage.doLogOff();
     }
 
-    @AfterClass(alwaysRun = true, dependsOnMethods = "addImplicityBeforeClose")
+    @AfterClass(alwaysRun = true, description = "Add implicit wait")
+    public void addImplicityBeforeClose() throws InterruptedException {
+        Thread.sleep(4000);
+    }
+
+    @AfterClass(alwaysRun = false, dependsOnMethods = "addImplicityBeforeClose")
     public void closeBrowser() throws Exception {
         try {
             Driver.Instance.quit();
@@ -58,16 +56,19 @@ public class TestNewMailPage {
 
     @Test(dataProvider = "NewMail_Provider", groups = "Mail Page Test", description = "Tests whether email is sent")
     public void testMailIsInDraft(String URL, String LOGIN, String PASSW, String TO, String SUBJ, String BODY) {
-        objMailPage = new NewMailPage(Driver.Instance);
-        objMailPage.goToUrl(URL);
-        objMailPage.doLogin(LOGIN, PASSW);
-        objMailPage.clickCreateNewMail();
-        objMailPage.setToAdress(TO);
-        objMailPage.setMailSubject(SUBJ);
-        objMailPage.setMailBody(BODY);
-        objMailPage.clickDraftLink();
-        objMailPage.clickPopUpSaveChanges();
-        Assert.assertTrue(objMailPage.messageIsInDraft(), "Element is not found, seems like message is not saved in Drafts ... ");
+        objDraftPage = new DraftsPage(Driver.Instance);
+        objDraftPage.goToUrl(URL);
+        objDraftPage.doLogin(LOGIN, PASSW);
+        objDraftPage.clickCreateNewMail();
+        objDraftPage.setToAdress(TO);
+        objDraftPage.setMailSubject(SUBJ);
+        objDraftPage.setMailBody(BODY);
+        objDraftPage.clickDraftLink();
+        objDraftPage.clickPopUpSaveChanges();
+        objDraftPage.openDraftMessage();
+        objDraftPage.setToAdress(TO);
+        objDraftPage.sendTheMail();
+        objDraftPage.clickOnSentMail();
+        Assert.assertTrue(objDraftPage.verifyMessageIsInSent(), "Element is not found, seems like message is not sent ... ");
     }
-
 }

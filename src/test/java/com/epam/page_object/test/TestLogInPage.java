@@ -1,8 +1,8 @@
-package com.epam.test;
+package com.epam.page_object.test;
 
 
-import com.epam.base.Driver;
-import com.epam.pages.LogInPage;
+import com.epam.page_object.base.Driver;
+import com.epam.page_object.pages.LogInPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
