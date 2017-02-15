@@ -3,6 +3,7 @@ package com.epam.page_object.test;
 
 import com.epam.page_object.base.Driver;
 import com.epam.page_object.pages.LogInPage;
+import com.epam.page_object.steps.TestLoginSteps;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -13,7 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 
 public class TestLogInPage {
-    LogInPage objLoginPage;
+    //private LogInPage objLoginPage;
+    private TestLoginSteps objTestloginSteps;
 
     @BeforeClass(alwaysRun = true, description = "Start browser")
     public void setup() {
@@ -49,12 +51,21 @@ public class TestLogInPage {
     }
 
     @Test(dataProvider = "Login_Provider", groups = "Login Page Test", description = "Tests whether user is Logged In", testName = "testLogin")
-    public void testLogin(String URL, String LOGIN, String PASSW) {
-        objLoginPage = new LogInPage(Driver.Instance);
-        objLoginPage.goToUrl(URL);
-        objLoginPage.doLogin(LOGIN, PASSW);
-        Assert.assertTrue(objLoginPage.userPresented(), "Element is not found, seems like User is not logged in ... ");
+    public void testLogin(String url, String login, String password) {
+        objTestloginSteps = new TestLoginSteps();
+        objTestloginSteps.openMailWebAddress(url);
+        objTestloginSteps.doLogin(login, password);
+        Assert.assertTrue(objTestloginSteps.isLoginSuccessful(), "Element is not found, seems like User is not logged in ... ");
     }
+
+
+//    @Test(dataProvider = "Login_Provider", groups = "Login Page Test", description = "Tests whether user is Logged In", testName = "testLogin")
+//    public void testLogin(String URL, String LOGIN, String PASSW) {
+//        objLoginPage = new LogInPage(Driver.Instance);
+//        objLoginPage.goToUrl(URL);
+//        objLoginPage.doLogin(LOGIN, PASSW);
+//        Assert.assertTrue(objLoginPage.userPresented(), "Element is not found, seems like User is not logged in ... ");
+//    }
 }
 
 
