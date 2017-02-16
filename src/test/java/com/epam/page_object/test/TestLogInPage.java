@@ -20,7 +20,7 @@ import static com.epam.page_object.test_data.TestInput.login;
 public class TestLogInPage {
 
     private TestLoginSteps objTestloginSteps;
-    User user = new User(TestInput.login, TestInput.password);
+    //User user = new User(TestInput.login, TestInput.password);
 
     @BeforeClass(alwaysRun = true, description = "Start browser")
     public void setup() {
@@ -49,16 +49,17 @@ public class TestLogInPage {
     @DataProvider(name = "Login_Provider")
     public Object[][] dataProvider() {
         return new Object[][]{
-                {user}
+                {new User(TestInput.login, TestInput.password)}
         };
     }
 
 
     @Test(dataProvider = "Login_Provider", groups = "Login Page Test", description = "Tests whether user is Logged In", testName = "testLogin")
-    public void testLogin(String url, String login, String password) {
+    //  public void testLogin(String url, String login, String password) {
+    public void testLogin(User user) {
         objTestloginSteps = new TestLoginSteps();
-        objTestloginSteps.openMailWebAddress(url);
-        objTestloginSteps.doLogin(login, password);
+        objTestloginSteps.openMailWebAddress(TestInput.mailBoxUrl);
+        objTestloginSteps.doLogin(user);
         Assert.assertTrue(objTestloginSteps.isLoginSuccessful(), "Element is not found, seems like User is not logged in ... ");
     }
 
