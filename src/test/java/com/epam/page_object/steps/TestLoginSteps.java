@@ -1,21 +1,14 @@
 package com.epam.page_object.steps;
 
 
-import java.util.concurrent.TimeUnit;
-
+import com.epam.page_object.base.Driver;
 import com.epam.page_object.pages.LogInPage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 
 public class TestLoginSteps {
-    private WebDriver driver;
 
-    public void initBrowser() {
-        driver = new FirefoxDriver();
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    }
+    private WebDriver driver = Driver.Initialize();
 
     public void closeDriver() {
         driver.quit();

@@ -2,8 +2,10 @@ package com.epam.page_object.test;
 
 
 import com.epam.page_object.base.Driver;
+import com.epam.page_object.business_objects.User;
 import com.epam.page_object.pages.LogInPage;
 import com.epam.page_object.steps.TestLoginSteps;
+import com.epam.page_object.test_data.TestInput;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -12,10 +14,13 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.epam.page_object.test_data.TestInput.login;
+
 
 public class TestLogInPage {
-    //private LogInPage objLoginPage;
+
     private TestLoginSteps objTestloginSteps;
+    User user = new User(TestInput.login, TestInput.password);
 
     @BeforeClass(alwaysRun = true, description = "Start browser")
     public void setup() {
@@ -35,20 +40,19 @@ public class TestLogInPage {
     @AfterClass(alwaysRun = true, dependsOnMethods = "addImplicityBeforeClose")
     public void closeBrowser() throws Exception {
         try {
-            Driver.Instance.quit();
+            Driver.quit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @DataProvider(name = "Login_Provider")
-    public Object[][] LoginCredentials() {
-        Object[][] Login = new Object[1][3];
-        Login[0][0] = "https://mail.yandex.by/";
-        Login[0][1] = "testtask28";
-        Login[0][2] = "testtask28testtask28";
-        return Login;
+    public Object[][] dataProvider() {
+        return new Object[][]{
+                {user}
+        };
     }
+
 
     @Test(dataProvider = "Login_Provider", groups = "Login Page Test", description = "Tests whether user is Logged In", testName = "testLogin")
     public void testLogin(String url, String login, String password) {
@@ -58,14 +62,6 @@ public class TestLogInPage {
         Assert.assertTrue(objTestloginSteps.isLoginSuccessful(), "Element is not found, seems like User is not logged in ... ");
     }
 
-
-//    @Test(dataProvider = "Login_Provider", groups = "Login Page Test", description = "Tests whether user is Logged In", testName = "testLogin")
-//    public void testLogin(String URL, String LOGIN, String PASSW) {
-//        objLoginPage = new LogInPage(Driver.Instance);
-//        objLoginPage.goToUrl(URL);
-//        objLoginPage.doLogin(LOGIN, PASSW);
-//        Assert.assertTrue(objLoginPage.userPresented(), "Element is not found, seems like User is not logged in ... ");
-//    }
 }
 
 
