@@ -1,7 +1,11 @@
 package com.epam.page_object.pages;
 
-/**
- * Created by Yauheni_Artsiukh on 2/17/2017.
- */
+
+import com.epam.page_object.base.Driver;
+
 public class AbstractPage {
+
+    public void getURL(String url) {
+        Driver.Instance.get(url);
+    }
 }

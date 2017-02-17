@@ -3,7 +3,6 @@ package com.epam.page_object.test;
 
 import com.epam.page_object.base.Driver;
 import com.epam.page_object.business_objects.User;
-import com.epam.page_object.pages.LogInPage;
 import com.epam.page_object.steps.TestLoginSteps;
 import com.epam.page_object.test_data.TestInput;
 import org.testng.Assert;
@@ -14,13 +13,10 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.epam.page_object.test_data.TestInput.login;
-
 
 public class TestLogInPage {
 
     private TestLoginSteps objTestloginSteps;
-    //User user = new User(TestInput.login, TestInput.password);
 
     @BeforeClass(alwaysRun = true, description = "Start browser")
     public void setup() {
@@ -33,14 +29,16 @@ public class TestLogInPage {
     }
 
     @AfterClass(alwaysRun = true, description = "Add implicit wait")
-    public void addImplicityBeforeClose() throws InterruptedException {
-        Thread.sleep(4000);
+    public void addImplicityBeforeClose()  {
+        Driver.Instance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @AfterClass(alwaysRun = true, dependsOnMethods = "addImplicityBeforeClose")
     public void closeBrowser() throws Exception {
+        Driver.Instance.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        Driver.Instance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         try {
-            Driver.quit();
+            Driver.Instance.quit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,10 +51,8 @@ public class TestLogInPage {
         };
     }
 
-
     @Test(dataProvider = "Login_Provider", groups = "Login Page Test", description = "Tests whether user is Logged In", testName = "testLogin")
-    //  public void testLogin(String url, String login, String password) {
-    public void testLogin(User user) {
+     public void testLogin(User user) {
         objTestloginSteps = new TestLoginSteps();
         objTestloginSteps.openMailWebAddress(TestInput.mailBoxUrl);
         objTestloginSteps.doLogin(user);

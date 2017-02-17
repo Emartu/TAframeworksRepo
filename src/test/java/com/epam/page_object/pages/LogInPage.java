@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 
-public class LogInPage {
+public class LogInPage extends AbstractPage {
 
     private WaitTool waitTool = new WaitTool();
     private final WebDriver driver;
@@ -32,17 +32,10 @@ public class LogInPage {
         PageFactory.initElements(this.driver, this);
     }
 
-    public void goToUrl(String URL) {
-        Driver.Instance.get(URL);
-    }
-
     public void doLogin(String userName, String passw) {
-
-        waitTool.waitForElementPresent(Driver.Instance, new By.ByXPath("//BUTTON[@class=' nb-button _nb-normal-button new-auth-form-button']"), 5);
         login.sendKeys(userName);
         password.sendKeys((passw));
         submit.click();
-
     }
 
     public boolean userPresented() {

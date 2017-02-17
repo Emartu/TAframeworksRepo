@@ -17,7 +17,7 @@ public class TestLoginSteps {
 
     public void openMailWebAddress(String url) {
         LogInPage logInPage = new LogInPage(driver);
-        logInPage.goToUrl(url);
+        logInPage.getURL(url);
     }
 
 //    public void doLogin(String login, String password) {
