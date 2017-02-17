@@ -11,7 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.concurrent.TimeUnit;
 
-public class DraftsPage {
+public class DraftsPage extends AbstractPage {
 
     private WaitTool waitTool = new WaitTool();
     private final WebDriver driver;
@@ -70,9 +70,6 @@ public class DraftsPage {
         PageFactory.initElements(this.driver, this);
     }
 
-    public void goToUrl(String URL) {
-        Driver.Instance.get(URL);
-    }
 
     public void doLogin(String userName, String passw) {
         login.sendKeys(userName);

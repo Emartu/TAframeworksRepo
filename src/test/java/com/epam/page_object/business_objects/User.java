@@ -7,21 +7,13 @@ public class User {
 
     private static String password;
     private static String login;
-    private static String mailBoxURL;
+
 
     public User(String login, String password) {
         this.login = login;
         this.password = password;
-        this.mailBoxURL = mailBoxURL;
     }
 
-    public static String getMailBoxURL() {
-        return mailBoxURL;
-    }
-
-    public void setMailBoxURL(String mailBoxURL) {
-        User.mailBoxURL = mailBoxURL;
-    }
 
     public void setPassword(String password) {
         User.password = password;

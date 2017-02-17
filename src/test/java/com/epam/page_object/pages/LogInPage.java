@@ -34,7 +34,7 @@ public class LogInPage extends AbstractPage {
 
     public void doLogin(String userName, String passw) {
         login.sendKeys(userName);
-        password.sendKeys((passw));
+        password.sendKeys(passw);
         submit.click();
     }
 

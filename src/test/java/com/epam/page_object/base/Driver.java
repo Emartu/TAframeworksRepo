@@ -19,6 +19,7 @@ public class Driver {
 //        System.setProperty("webdriver.gecko.driver", "resource\\geckodriver-v0.13.0-win64\\geckodriver.exe");
         System.setProperty("webdriver.chrome.driver", "resource\\chromedriver_win32(1)\\chromedriver.exe");
         if (Instance == null) {
+//            Instance = new FirefoxDriver();
             Instance = new ChromeDriver();
             Instance.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
             Instance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -26,10 +27,6 @@ public class Driver {
         return Instance;
     }
 
-    public static void close() {
-        System.out.println("Closing Browser");
-        Instance.close();
-    }
 
     public static void quit() {
         Instance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);

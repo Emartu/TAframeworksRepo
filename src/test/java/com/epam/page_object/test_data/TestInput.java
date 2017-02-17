@@ -6,6 +6,6 @@ public class TestInput {
     public static String login = "testtask28";
     public static String password = "testtask28testtask28";
     public static String to = "emartu@yandex.ru";
-    public String subject = "sent via WebDriver";
-    public String body = "testtask28testtask28";
+    public static String subject = "sent via WebDriver";
+    public static String body = "testtask28testtask28";
 }

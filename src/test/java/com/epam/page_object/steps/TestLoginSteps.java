@@ -11,23 +11,15 @@ public class TestLoginSteps {
 
     private WebDriver driver = Driver.Initialize();
 
-    public void closeDriver() {
-        driver.quit();
-    }
-
     public void openMailWebAddress(String url) {
         LogInPage logInPage = new LogInPage(driver);
         logInPage.getURL(url);
     }
 
-//    public void doLogin(String login, String password) {
-//        LogInPage logInPage = new LogInPage(driver);
-//        logInPage.doLogin(login, password);
-//    }
-public void doLogin(User user) {
-    LogInPage logInPage = new LogInPage(driver);
-    logInPage.doLogin(user.getLogin(),user.getPassword());
-}
+    public void doLogin(User user) {
+        LogInPage logInPage = new LogInPage(driver);
+        logInPage.doLogin(user.getLogin(), user.getPassword());
+    }
 
     public boolean isLoginSuccessful() {
         LogInPage logInPage = new LogInPage(driver);

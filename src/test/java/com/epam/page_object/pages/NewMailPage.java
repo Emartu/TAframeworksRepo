@@ -2,7 +2,7 @@ package com.epam.page_object.pages;
 
 import com.epam.page_object.base.Driver;
 import com.epam.page_object.base.WaitTool;
-import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.concurrent.TimeUnit;
 
 
-public class NewMailPage {
+public class NewMailPage extends AbstractPage {
 
     private WaitTool waitTool = new WaitTool();
     private final WebDriver driver;
@@ -34,7 +34,7 @@ public class NewMailPage {
     @FindBy(xpath = "//*[@class='mail-Compose-Field-Input-Controller js-compose-field js-editor-tabfocus-prev']")
     private WebElement subject;
 
-    @FindBy(xpath = "//*[@id='cke_1_contents']")
+    @FindBy(xpath = "//*[@id='cke_1_contents_wrap']")
     private WebElement body;
 
     @FindBy(xpath = "//button[@data-action='save']")
@@ -52,10 +52,6 @@ public class NewMailPage {
         PageFactory.initElements(this.driver, this);
     }
 
-    public void goToUrl(String URL) {
-        Driver.Instance.get(URL);
-    }
-
     public void doLogin(String userName, String passw) {
         login.sendKeys(userName);
         password.sendKeys((passw));
@@ -69,34 +65,20 @@ public class NewMailPage {
 
     public void setToAdress(String toAdress) {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        sendTo.click();
         sendTo.sendKeys(toAdress);
     }
 
     public void setMailSubject(String mailSubject) {
-        subject.click();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         subject.sendKeys(mailSubject);
     }
 
     public void setMailBody(String mailBody) {
         body.click();
-        body.sendKeys(mailBody);
-    }
-
-    public void clickPopUpSaveChanges() {
-        popupSaveButton.click();
-    }
-
-    public void clickDraftLink() {
-        draftLink.click();
-    }
-
-    public boolean messageIsInDraft() {
-        try {
-            return sentSubj.isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+        body.click();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].setAttribute('value', '" + mailBody + "')", body);
+        // body.sendKeys(mailBody);
     }
 
 }
